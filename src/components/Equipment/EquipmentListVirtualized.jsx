@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { VariableSizeList as List } from "react-window";
 
 import EquipmentCard from "./EquipmentCard";
@@ -16,7 +16,11 @@ const Row = ({ data, index, setSize, windowWidth }) => {
   return (
     <div ref={rowRef}>
       <EquipmentCard {...data[index]} />
-      {index < data.length - 1 && <Divider height="8px" />}
+      {index < data.length - 1 ? (
+        <Divider height="8px" />
+      ) : (
+        <Divider height="8px" color={false} />
+      )}
     </div>
   );
 };
@@ -38,6 +42,10 @@ export default function EquipmentListVirtualized({ equipments: data }) {
   const getSize = (index) => sizeMap.current[index] || 50;
   const [windowWidth, windowHeight] = useWindowResize();
   const navHeight = useNavHeight(data);
+
+  useEffect(() => {
+    listRef.current.scrollToItem(0);
+  }, [data]);
 
   return (
     <List
