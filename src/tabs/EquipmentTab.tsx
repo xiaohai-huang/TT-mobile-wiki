@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import EquipmentList from "../components/Equipment/EquipmentList";
+import EquipmentListVirtualized from "../components/Equipment/EquipmentListVirtualized";
 import IconList from "../components/IconList/IconList";
 import Paper from "../components/Paper/Paper";
 import Segment from "../components/Segment/Segment";
@@ -65,6 +65,7 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
     <>
       {/* compute the top based on nav-section's height */}
       <Paper
+        className="equipment-select"
         padding
         borderBottom
         style={{ position: "sticky", top: `${topNavSize[1]}px` }}
@@ -88,7 +89,7 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
           </>
         )}
       </Paper>
-      <EquipmentList equipments={equipmentListData} />
+      <EquipmentListVirtualized equipments={equipmentListData} />
     </>
   );
 }

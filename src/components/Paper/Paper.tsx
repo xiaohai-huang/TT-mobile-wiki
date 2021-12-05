@@ -14,7 +14,7 @@ function Paper({
   borderBottom = false,
   padding = false,
   children,
-  className,
+  className = "",
   ...rest
 }: PaperProps) {
   return (
