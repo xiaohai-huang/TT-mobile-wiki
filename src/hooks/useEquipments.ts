@@ -26,18 +26,26 @@ export default function useEquipments(planId: string) {
     special: Equipments;
   }>({ normal: {}, special: {} });
   const [icons, setIcons] = useState<Icon[]>([]);
+  const [equipConfig, setEquipConfig] = useState<Equipments>({});
+
   // Fetch all data
   useEffect(() => {
     (async () => {
       const { EquipConfig } = await DescribeJKConfig();
+      setEquipConfig(EquipConfig);
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       const { iconData, normalEquipData, specialEquipData } = filterData(
-        EquipConfig,
+        equipConfig,
         planId
       );
       setEquipments({ normal: normalEquipData, special: specialEquipData });
       setIcons(iconData);
     })();
-  }, [planId]);
+  }, [planId, equipConfig]);
 
   return { equipments, icons };
 }
@@ -56,7 +64,7 @@ function filterData(equipments: Equipments, planId: string) {
           key,
           picture: makePictureUrl(equip.picture),
         };
-      } else {
+      } else if (equip.type === "基础装备" || equip.type === "成型装备") {
         iconData.push({ key, url: makePictureUrl(equip.picture) });
         normalEquipData[key] = {
           ...equip,

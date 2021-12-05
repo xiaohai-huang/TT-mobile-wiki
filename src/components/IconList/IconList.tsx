@@ -18,7 +18,7 @@ function IconList({
             active: icon.key === value,
           })}
           key={icon.key}
-          onClick={() => onChange(icon.key)}
+          onClick={() => onChange(icon.key === value ? "" : icon.key)}
         >
           <img alt="icon" src={icon.url} />
         </div>

@@ -6,7 +6,7 @@ import EquipmentTab from "./tabs/EquipmentTab";
 
 const PLAN_TABS = [
   { label: "时空裂缝", value: "1" },
-  { label: "英雄之黎明", value: "2" }, // ?? 这个的 赛季的id是多少？
+  { label: "英雄之黎明", value: "6" }, // ?? 这个的 赛季的id是多少？
 ];
 
 const CATEGORY_TABS = [
