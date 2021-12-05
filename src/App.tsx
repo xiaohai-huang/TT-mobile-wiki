@@ -4,6 +4,8 @@ import Paper from "./components/Paper/Paper";
 import Tabs from "./components/Tabs/Tabs";
 import EquipmentTab from "./tabs/EquipmentTab";
 import "./App.scss";
+import HeroTab from "./tabs/HeroTab";
+import TinyHeroTab from "./tabs/TinyHeroTab";
 
 const PLAN_TABS = [
   { label: "时空裂缝", value: "1" },
@@ -23,8 +25,14 @@ function App() {
 
   let content = <></>;
   switch (category) {
+    case "0":
+      content = <HeroTab planId={plan} />;
+      break;
     case "1":
       content = <EquipmentTab planId={plan} />;
+      break;
+    case "3":
+      content = <TinyHeroTab planId={plan} />;
       break;
   }
 
