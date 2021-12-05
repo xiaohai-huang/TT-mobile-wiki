@@ -1,5 +1,3 @@
-import classNames from "classnames";
-import React from "react";
 import Button from "../Button/Button";
 
 interface SegmentProps {

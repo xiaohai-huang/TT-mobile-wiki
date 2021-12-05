@@ -14,10 +14,10 @@ function Paper({
   children,
 }: PaperProps) {
   return (
-    <section className={classNames("paper", { padding })}>
-      {children}
-      {borderBottom && <div className="border" />}
-    </section>
+    <div className="paper-root">
+      <section className={classNames("paper", { padding })}>{children}</section>
+      {borderBottom && <div className="paper-border" />}
+    </div>
   );
 }
 

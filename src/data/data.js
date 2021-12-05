@@ -1,4 +1,4 @@
-const list = {
+export const list = {
   EquipConfig: {
     1001: {
       basicDesc: "+15攻击力",

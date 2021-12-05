@@ -1,4 +1,5 @@
-const BASE_URL = "https://cdn.jkmobile.qq.com/";
+// export const BASE_URL = "https://cdn.jkmobile.qq.com/";
+export const BASE_URL = "";
 
 export default function api(path: string) {
   return fetch(`${BASE_URL}${path}`).then((res) => res.json());

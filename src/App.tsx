@@ -1,11 +1,12 @@
 import { useState } from "react";
+
 import Paper from "./components/Paper/Paper";
-import Segment from "./components/Segment/Segment";
 import Tabs from "./components/Tabs/Tabs";
+import EquipmentTab from "./tabs/EquipmentTab";
 
 const PLAN_TABS = [
-  { label: "时空裂缝", value: "0" },
-  { label: "英雄之黎明", value: "1" },
+  { label: "时空裂缝", value: "1" },
+  { label: "英雄之黎明", value: "2" }, // ?? 这个的 赛季的id是多少？
 ];
 
 const CATEGORY_TABS = [
@@ -15,15 +16,17 @@ const CATEGORY_TABS = [
   { label: "小小英雄", value: "3" },
 ];
 
-const EQUIPMENT_TYPE = [
-  { label: "常规装备", value: "0" },
-  { label: "特殊装备", value: "1" },
-];
-
 function App() {
-  const [plan, setPlan] = useState("0");
+  const [plan, setPlan] = useState("1");
   const [category, setCategory] = useState("0");
-  const [equipmentType, setEquipmentType] = useState("0");
+
+  let content = <></>;
+  switch (category) {
+    case "1":
+      content = <EquipmentTab planId={plan} />;
+      break;
+  }
+
   return (
     <div className="jk-wiki">
       <Paper borderBottom>
@@ -36,21 +39,15 @@ function App() {
       </Paper>
       <Paper borderBottom>
         <Tabs
-          size="medium"
           tabs={CATEGORY_TABS}
+          size="medium"
           value={category}
           underline={false}
           border
           onChange={(tab) => setCategory(tab)}
         />
       </Paper>
-      <Paper padding borderBottom>
-        <Segment
-          segments={EQUIPMENT_TYPE}
-          value={equipmentType}
-          onChange={(type) => setEquipmentType(type)}
-        />
-      </Paper>
+      {content}
     </div>
   );
 }
