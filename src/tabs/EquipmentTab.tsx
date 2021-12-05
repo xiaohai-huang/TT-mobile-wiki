@@ -6,6 +6,7 @@ import Paper from "../components/Paper/Paper";
 import Segment from "../components/Segment/Segment";
 
 import useEquipments, { Equipment } from "../hooks/useEquipments";
+import useSize from "../hooks/useSize";
 
 const EQUIPMENT_TYPE = [
   { label: "常规装备", value: "常规装备" },
@@ -23,6 +24,7 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
   }>({});
   const { equipments: allEquipments, icons } = useEquipments(planId);
   const [sythesisEquipments, setSythesisEquipments] = useState<Equipment[]>([]);
+  const topNavSize = useSize(".nav-section");
 
   //  单选某个时, 筛选展示由其合成的的常规装备
   useEffect(() => {
@@ -61,7 +63,12 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
 
   return (
     <>
-      <Paper padding borderBottom>
+      {/* compute the top based on nav-section's height */}
+      <Paper
+        padding
+        borderBottom
+        style={{ position: "sticky", top: `${topNavSize[1]}px` }}
+      >
         <Segment
           segments={EQUIPMENT_TYPE}
           value={equipmentType}

@@ -43,7 +43,9 @@
       letter-spacing: 0em;
       text-align: left;
       color: #757e7f;
-      transition-property: all;
+      transition-property: font-size, letter-spacing, line-height, color;
+      // transition-property: all;
+
       transition-timing-function: ease;
       transition-duration: 0.3s;
     }
