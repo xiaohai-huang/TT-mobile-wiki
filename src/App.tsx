@@ -27,6 +27,7 @@ function App() {
   const transition = useTransition(category, {
     from: { opacity: 0 },
     enter: { opacity: 1 },
+    config: { duration: 500 },
   });
   let content = <></>;
   switch (category) {
