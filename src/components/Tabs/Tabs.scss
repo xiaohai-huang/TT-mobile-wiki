@@ -1,10 +1,14 @@
 .tabs {
-  width: 100%;
   display: flex;
-  justify-content: space-evenly;
-  align-items: center;
-  position: relative;
-
+  align-items: flex-start;
+  &__inner {
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
   &.large {
     height: 48px;
   }

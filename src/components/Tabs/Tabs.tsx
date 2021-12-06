@@ -21,18 +21,20 @@ function Tabs({
 }: TabsProps) {
   return (
     <nav className={`tabs ${size}`}>
-      {tabs.map((tab) => {
-        return (
-          <TabButton
-            key={tab.value}
-            active={value === tab.value}
-            underline={underline}
-            onClick={() => onChange(tab.value)}
-          >
-            {tab.label}
-          </TabButton>
-        );
-      })}
+      <div className="tabs__inner">
+        {tabs.map((tab) => {
+          return (
+            <TabButton
+              key={tab.value}
+              active={value === tab.value}
+              underline={underline}
+              onClick={() => onChange(tab.value)}
+            >
+              {tab.label}
+            </TabButton>
+          );
+        })}
+      </div>
     </nav>
   );
 }
