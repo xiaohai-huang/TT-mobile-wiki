@@ -15,17 +15,19 @@ export interface Equipment {
   synthesis2: string;
   tftEquipId: string;
   type: "基础装备" | "成型装备" | "特殊装备";
+  outputs?: Equipment[] | [];
 }
 
 export type Equipments = { [id: string]: Equipment };
-type Icon = { key: string; url: string };
 
+/**
+ * 获取 子装备 & 特殊装备
+ * @param planId 赛季id
+ * @returns 子装备，特殊装备
+ */
 export default function useEquipments(planId: string) {
-  const [equipments, setEquipments] = useState<{
-    normal: Equipments;
-    special: Equipments;
-  }>({ normal: {}, special: {} });
-  const [icons, setIcons] = useState<Icon[]>([]);
+  const [specialEquipments, setSpecialEquipments] = useState<Equipments>({});
+  const [childEquipments, setChildEquipments] = useState<Equipments>({});
   const [equipConfig, setEquipConfig] = useState<Equipments>({});
 
   // Fetch all data
@@ -38,23 +40,22 @@ export default function useEquipments(planId: string) {
 
   useEffect(() => {
     (async () => {
-      const { iconData, normalEquipData, specialEquipData } = filterData(
+      const { childEquipData, specialEquipData } = filterData(
         equipConfig,
         planId
       );
-      setEquipments({ normal: normalEquipData, special: specialEquipData });
-      setIcons(iconData);
+      setChildEquipments(childEquipData);
+      setSpecialEquipments(specialEquipData);
     })();
   }, [planId, equipConfig]);
 
-  return { equipments, icons };
+  return { childEquipments, specialEquipments };
 }
 
 function filterData(equipments: Equipments, planId: string) {
   const keys = Object.keys(equipments);
-  const normalEquipData: Equipments = {};
+  const childEquipData: any = {};
   const specialEquipData: Equipments = {};
-  const iconData: Icon[] = [];
   keys.forEach((key) => {
     const equip = equipments[key];
     if (equip.planID === planId) {
@@ -65,15 +66,36 @@ function filterData(equipments: Equipments, planId: string) {
           picture: makePictureUrl(equip.picture),
         };
       } else if (equip.type === "基础装备" || equip.type === "成型装备") {
-        iconData.push({ key, url: makePictureUrl(equip.picture) });
-        normalEquipData[key] = {
-          ...equip,
-          key,
-          picture: makePictureUrl(equip.picture),
-        };
+        // 获取 子装备[]
+        const { synthesis1, synthesis2 } = equip;
+        const children = [synthesis1, synthesis2];
+        children.forEach((childKey) => {
+          if (childKey && childKey !== "0") {
+            if (!childEquipData[childKey]) {
+              childEquipData[childKey] = {
+                ...equipments[childKey],
+                key: childKey,
+                picture: makePictureUrl(equipments[childKey].picture),
+                outputs: {},
+              };
+            } else {
+              childEquipData[childKey].outputs[key] = {
+                ...equip,
+                key,
+                picture: makePictureUrl(equip.picture),
+              };
+            }
+          }
+        });
       }
     }
   });
 
-  return { specialEquipData, normalEquipData, iconData };
+  const childKeys = Object.keys(childEquipData);
+  childKeys.forEach((key) => {
+    const outputs = childEquipData[key].outputs;
+    if (outputs) childEquipData[key].outputs = Object.values(outputs);
+  });
+
+  return { specialEquipData, childEquipData };
 }

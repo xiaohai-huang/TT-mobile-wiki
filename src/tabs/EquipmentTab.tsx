@@ -12,6 +12,7 @@ const EQUIPMENT_TYPE = [
   { label: "常规装备", value: "常规装备" },
   { label: "特殊装备", value: "特殊装备" },
 ];
+type Icon = { key: string; url: string };
 
 interface EquipmentTabProps {
   planId: string;
@@ -19,47 +20,46 @@ interface EquipmentTabProps {
 
 function EquipmentTab({ planId }: EquipmentTabProps) {
   const [equipmentType, setEquipmentType] = useState("常规装备" as any);
+  // 当前选中的装备
   const [equipment, setEquipment] = useState<{
     [planId: string]: string;
   }>({});
-  const { equipments: allEquipments, icons } = useEquipments(planId);
-  const [sythesisEquipments, setSythesisEquipments] = useState<Equipment[]>([]);
+  const { childEquipments, specialEquipments } = useEquipments(planId);
+  const [equipmentListData, setEquipmentListData] = useState<Equipment[]>([]);
+  const [icons, setIcons] = useState<Icon[]>([]);
   const topNavSize = useSize(".nav-section");
 
-  //  单选某个时, 筛选展示由其合成的的常规装备
+  // 获取要展示的装备列表
   useEffect(() => {
-    if (equipment[planId]) {
-      const equipments = allEquipments.normal;
-      const equip = equipments[equipment[planId]];
-      if (!equip) {
-        setSythesisEquipments([]);
-        return;
+    let listData: Equipment[] = [];
+    // 单选某个时, 筛选展示由其合成的的常规装备
+    if (equipmentType === "常规装备") {
+      const selectedKey = equipment[planId];
+      if (selectedKey) {
+        listData = [
+          childEquipments[selectedKey],
+          ...Object.values(childEquipments[selectedKey].outputs as Equipment[]),
+        ];
+      } else {
+        listData = Object.values(childEquipments);
       }
-      const keys = [equip?.synthesis1, equip?.synthesis2];
-      const sythesisEquips: Equipment[] = [];
-
-      keys.forEach((key) => {
-        if (key && key !== "0" && !sythesisEquips.includes(equipments[key])) {
-          sythesisEquips.push(equipments[key]);
-        }
-      });
-      // The first equip is the selected equip
-      setSythesisEquipments([equip, ...sythesisEquips]);
-    } else {
-      setSythesisEquipments([]);
     }
-  }, [equipment, allEquipments, planId]);
-
-  let equipmentListData: Equipment[] = [];
-  if (equipmentType === "常规装备") {
-    if (equipment[planId]) {
-      equipmentListData = sythesisEquipments;
-    } else {
-      equipmentListData = Object.values(allEquipments.normal);
+    // 展示列表
+    else if (equipmentType === "特殊装备") {
+      listData = Object.values(specialEquipments);
     }
-  } else if (equipmentType === "特殊装备") {
-    equipmentListData = Object.values(allEquipments.special);
-  }
+    setEquipmentListData(listData);
+  }, [childEquipments, equipment, equipmentType, planId, specialEquipments]);
+
+  // 获取展示的装备图片列表
+  useEffect(() => {
+    setIcons(
+      Object.values(childEquipments).map(({ key, picture }: any) => ({
+        key,
+        url: picture,
+      }))
+    );
+  }, [childEquipments]);
 
   return (
     <>
@@ -79,7 +79,7 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
         {equipmentType === "常规装备" && (
           <>
             <IconList
-              icons={icons.slice(10, 18)}
+              icons={icons}
               value={`${equipment[planId]}`}
               onChange={(equipId) =>
                 setEquipment((prev) => ({ ...prev, [planId]: equipId }))
