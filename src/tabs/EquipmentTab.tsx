@@ -29,24 +29,23 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
   const [icons, setIcons] = useState<Icon[]>([]);
   const topNavSize = useSize(".nav-section");
 
-  // 获取要展示的装备列表
+  // 单选某个时, 筛选展示由其合成的的常规装备
   useEffect(() => {
     let listData: Equipment[] = [];
-    // 单选某个时, 筛选展示由其合成的的常规装备
     if (equipmentType === "常规装备") {
       const selectedKey = equipment[planId];
       if (selectedKey) {
-        listData = [
-          childEquipments[selectedKey],
-          ...Object.values(childEquipments[selectedKey].outputs as Equipment[]),
-        ];
+        const selectedEquip = childEquipments[selectedKey];
+        if (selectedEquip)
+          listData = [
+            selectedEquip,
+            ...Object.values(selectedEquip.outputs as Equipment[]),
+          ];
+        else listData = [];
       } else {
+        // No equip is selected
         listData = Object.values(childEquipments);
       }
-    }
-    // 展示列表
-    else if (equipmentType === "特殊装备") {
-      listData = Object.values(specialEquipments);
     }
     setEquipmentListData(listData);
   }, [childEquipments, equipment, equipmentType, planId, specialEquipments]);
@@ -89,7 +88,13 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
           </>
         )}
       </Paper>
-      <EquipmentListVirtualized equipments={equipmentListData} />
+      <EquipmentListVirtualized
+        equipments={
+          equipmentType === "常规装备"
+            ? equipmentListData
+            : Object.values(specialEquipments)
+        }
+      />
     </>
   );
 }
