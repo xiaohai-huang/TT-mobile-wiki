@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useTransition } from "@react-spring/core";
+import { animated } from "@react-spring/web";
 
 import Paper from "./components/Paper/Paper";
 import Tabs from "./components/Tabs/Tabs";
@@ -22,7 +24,10 @@ const CATEGORY_TABS = [
 function App() {
   const [plan, setPlan] = useState("1");
   const [category, setCategory] = useState("0");
-
+  const transition = useTransition(category, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+  });
   let content = <></>;
   switch (category) {
     case "0":
@@ -58,7 +63,9 @@ function App() {
           />
         </Paper>
       </section>
-      {content}
+      {transition((style, item) => {
+        return <animated.div style={style}>{content}</animated.div>;
+      })}
     </div>
   );
 }
