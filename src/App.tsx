@@ -44,7 +44,7 @@ function App() {
 
   return (
     <div className="jk-wiki">
-      <section className="nav-section">
+      <section className="nav nav-section">
         <Paper className="plan-tabs" borderBottom>
           <Tabs
             tabs={PLAN_TABS}

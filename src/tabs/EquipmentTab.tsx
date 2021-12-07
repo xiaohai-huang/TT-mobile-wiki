@@ -64,7 +64,7 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
     <>
       {/* compute the top based on nav-section's height */}
       <Paper
-        className="equipment-select"
+        className="nav equipment-select"
         padding
         borderBottom
         style={{ position: "sticky", top: `${topNavSize[1]}px` }}
