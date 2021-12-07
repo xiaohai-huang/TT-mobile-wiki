@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useTransition } from "@react-spring/core";
+import { animated } from "@react-spring/web";
 
 import EquipmentListVirtualized from "../components/Equipment/EquipmentListVirtualized";
 import IconList from "../components/IconList/IconList";
@@ -28,6 +30,12 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
   const [equipmentListData, setEquipmentListData] = useState<Equipment[]>([]);
   const [icons, setIcons] = useState<Icon[]>([]);
   const topNavSize = useSize(".nav-section");
+  // animation when switching equip type
+  const transition = useTransition(equipmentType, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    config: { duration: 500 },
+  });
 
   // 单选某个时, 筛选展示由其合成的的常规装备
   useEffect(() => {
@@ -88,13 +96,17 @@ function EquipmentTab({ planId }: EquipmentTabProps) {
           </>
         )}
       </Paper>
-      <EquipmentListVirtualized
-        equipments={
-          equipmentType === "常规装备"
-            ? equipmentListData
-            : Object.values(specialEquipments)
-        }
-      />
+      {transition((style: any) => (
+        <animated.div style={style}>
+          <EquipmentListVirtualized
+            equipments={
+              equipmentType === "常规装备"
+                ? equipmentListData
+                : Object.values(specialEquipments)
+            }
+          />
+        </animated.div>
+      ))}
     </>
   );
 }
