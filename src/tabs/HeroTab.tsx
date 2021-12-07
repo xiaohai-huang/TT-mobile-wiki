@@ -5,7 +5,7 @@ function HeroTab({ planId }: { planId: string }) {
 
   return (
     <Paper padding>
-      <h1>前端开发测试</h1>
+      <h1 style={{ textAlign: "center" }}>前端开发测试</h1>
       <h2>基本要求:</h2>
       <ol>
         <li>需要实现时空裂痕-装备分页，其他一二级tab切换无需展示内容</li>

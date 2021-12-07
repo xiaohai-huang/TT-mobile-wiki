@@ -1,5 +1,8 @@
+import React, { useEffect, useState } from "react";
 import classNames from "classnames";
-import { useEffect, useState } from "react";
+import { useTransition } from "@react-spring/core";
+import { animated } from "@react-spring/web";
+import Paper from "../Paper/Paper";
 
 import "./Tabs.scss";
 
@@ -9,7 +12,6 @@ interface TabsProps {
   onChange?: (value: string) => void;
   size?: "medium" | "large";
   underline?: boolean;
-  border?: boolean;
 }
 
 function Tabs({
@@ -20,22 +22,59 @@ function Tabs({
   underline = true,
 }: TabsProps) {
   return (
-    <nav className={`tabs ${size}`}>
-      <div className="tabs__inner">
-        {tabs.map((tab) => {
-          return (
-            <TabButton
-              key={tab.value}
-              active={value === tab.value}
-              underline={underline}
-              onClick={() => onChange(tab.value)}
-            >
-              {tab.label}
-            </TabButton>
-          );
-        })}
-      </div>
-    </nav>
+    <Paper className="category-tabs" borderBottom>
+      <nav className={`tabs ${size}`}>
+        <div className="tabs__inner">
+          {tabs.map((tab) => {
+            return (
+              <TabButton
+                key={tab.value}
+                active={value === tab.value}
+                underline={underline}
+                onClick={() => onChange(tab.value)}
+              >
+                {tab.label}
+              </TabButton>
+            );
+          })}
+        </div>
+      </nav>
+    </Paper>
+  );
+}
+
+interface TabPanelProps {
+  value?: string;
+  index?: string;
+  animation?: boolean;
+  children: React.ReactNode;
+}
+
+export function TabPanel({
+  value = "",
+  index = "",
+  animation = true,
+  children,
+}: TabPanelProps) {
+  // ease animation when value is changed
+  const transition = useTransition(
+    value,
+    animation
+      ? {
+          from: { opacity: 0 },
+          enter: { opacity: 1 },
+          config: { duration: 500 },
+        }
+      : {}
+  );
+  return value === index ? (
+    <>
+      {transition((style) => (
+        <animated.div style={style}>{children}</animated.div>
+      ))}
+    </>
+  ) : (
+    <></>
   );
 }
 
