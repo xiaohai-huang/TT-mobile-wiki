@@ -5,12 +5,14 @@ interface ButtonProps {
   color?: "black" | "white";
   onClick?: () => void;
   children?: React.ReactNode;
+  fullSize?: boolean;
   style?: React.CSSProperties;
 }
 
 function Button({
   color = "black",
   onClick = () => {},
+  fullSize = false,
   style,
   children,
 }: ButtonProps) {
@@ -20,6 +22,7 @@ function Button({
       className={classNames("basic-button", {
         black: color === "black",
         white: color === "white",
+        "basic-button__full-size": fullSize,
       })}
       onClick={onClick}
     >

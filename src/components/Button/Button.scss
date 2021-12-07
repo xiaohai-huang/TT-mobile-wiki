@@ -8,6 +8,10 @@
   justify-content: center;
   align-items: center;
   outline: 1px solid #1c1c1c;
+  cursor: pointer;
+  &__full-size {
+    width: 100%;
+  }
   .children {
     font-family: Carrois Gothic SC;
     font-size: 12px;

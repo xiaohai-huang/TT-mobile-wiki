@@ -6,11 +6,17 @@ function TinyHeroTab({ planId }: { planId: string }) {
 
   return (
     <Paper padding>
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "auto auto",
+          alignContent: "center",
+        }}
+      >
         <h1>设计稿</h1>
 
         <Button
-          style={{ marginLeft: "10px", marginTop: "2px", cursor: "pointer" }}
+          style={{ marginLeft: "10px", marginTop: "2px" }}
           color="white"
           onClick={() =>
             window.open(
@@ -20,13 +26,11 @@ function TinyHeroTab({ planId }: { planId: string }) {
         >
           点此查看
         </Button>
-      </div>
 
-      <div style={{ display: "flex", alignItems: "center" }}>
         <h1>数据来源</h1>
 
         <Button
-          style={{ marginLeft: "10px", marginTop: "2px", cursor: "pointer" }}
+          style={{ marginLeft: "10px", marginTop: "2px" }}
           color="white"
           onClick={() =>
             window.open("https://cdn.jkmobile.qq.com/jkConfig/config.json")
@@ -34,7 +38,20 @@ function TinyHeroTab({ planId }: { planId: string }) {
         >
           点此查看
         </Button>
+
+        <h1>GitHub仓库</h1>
+
+        <Button
+          style={{ marginLeft: "10px", marginTop: "2px" }}
+          color="white"
+          onClick={() =>
+            window.open("https://github.com/xiaohai-huang/TT-mobile-wiki")
+          }
+        >
+          点此查看
+        </Button>
       </div>
+
       <div style={{ marginTop: "20px" }} />
       <h1>字段解释</h1>
       <p>
