@@ -33,7 +33,8 @@ function HeroTab({ planId }: { planId: string }) {
       <Button
         color="black"
         fullSize
-        style={{ height: "30px", marginTop: "10px" }}
+        style={{ height: "48px", marginTop: "15px" }}
+        textStyle={{ fontSize: "17px" }}
         onClick={() =>
           window.open("https://github.com/xiaohai-huang/TT-mobile-wiki")
         }

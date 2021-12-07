@@ -7,6 +7,7 @@ interface ButtonProps {
   children?: React.ReactNode;
   fullSize?: boolean;
   style?: React.CSSProperties;
+  textStyle?: React.CSSProperties;
 }
 
 function Button({
@@ -14,6 +15,7 @@ function Button({
   onClick = () => {},
   fullSize = false,
   style,
+  textStyle,
   children,
 }: ButtonProps) {
   return (
@@ -26,7 +28,9 @@ function Button({
       })}
       onClick={onClick}
     >
-      <p className="children">{children}</p>
+      <p className="children" style={textStyle}>
+        {children}
+      </p>
     </div>
   );
 }
