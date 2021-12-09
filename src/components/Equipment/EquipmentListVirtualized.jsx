@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef } from "react";
-import { VariableSizeList as List } from "react-window";
+import React, { useCallback, useEffect, useRef, memo } from "react";
+import { VariableSizeList as List, areEqual } from "react-window";
 
 import EquipmentCard from "./EquipmentCard";
 import useWindowResize from "../../hooks/useWindowResize";
 import useSize from "../../hooks/useSize";
 import Divider from "../Divider/Divider";
 
-const Row = ({ data, index, setSize, windowWidth }) => {
+const Row = memo(({ data, index, setSize, windowWidth }) => {
   const rowRef = useRef();
 
   React.useEffect(() => {
@@ -23,7 +23,7 @@ const Row = ({ data, index, setSize, windowWidth }) => {
       )}
     </div>
   );
-};
+}, areEqual);
 
 const useNavHeight = (deps) => {
   const [, height1] = useSize(".nav-section", deps);

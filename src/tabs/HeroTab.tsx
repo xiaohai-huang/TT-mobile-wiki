@@ -16,7 +16,7 @@ function HeroTab({ planId }: { planId: string }) {
           "特殊装备没有子装备筛选，展示列表即可。 ",
           "不限技术栈，要求模块化和组件化。",
         ].map((item, i) => (
-          <div style={{ display: "flex" }}>
+          <div key={i} style={{ display: "flex" }}>
             <p>{i + 1}. </p>
             <div style={{ marginRight: "3px" }} />
             <p key={i} style={{ marginBottom: "3px" }}>

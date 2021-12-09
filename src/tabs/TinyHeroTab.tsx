@@ -11,6 +11,7 @@ function TinyHeroTab({ planId }: { planId: string }) {
           display: "grid",
           gridTemplateColumns: "auto auto",
           alignContent: "center",
+          rowGap: "8px",
         }}
       >
         <h1>设计稿</h1>
